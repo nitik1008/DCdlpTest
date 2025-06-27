@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+
+public class Fibonacci
+{
+    // <summary>
+    // Generates a Fibonacci series up to a specified number of terms.
+    // The Fibonacci sequence starts with 0 and 1, and each subsequent number
+    // is the sum of the two preceding ones (e.g., 0, 1, 1, 2, 3, 5, 8...).
+    // </summary>
+    // <param name="nTerms">The number of terms to generate in the series.</param>
+    // <returns>A List<long> containing the Fibonacci series.</returns>
+    public static List<long> GenerateFibonacciSeries(int nTerms)
+    {
+        // Initialize a list to store the Fibonacci numbers.
+        List<long> series = new List<long>();
+
+        // Handle edge cases for nTerms.
+        if (nTerms <= 0)
+        {
+            // If nTerms is 0 or negative, return an empty list.
+            Console.WriteLine("Number of terms must be a positive integer.");
+            return series;
+        }
+        else if (nTerms == 1)
+        {
+            // If nTerms is 1, the series contains only the first term (0).
+            series.Add(0);
+        }
+        else
+        {
+            // For nTerms >= 2, initialize the first two terms.
+            series.Add(0); // F(0)
+            series.Add(1); // F(1)
+
+            // Generate subsequent terms.
+            // Loop starts from 2 because the first two terms are already added.
+            for (int i = 2; i < nTerms; i++)
+            {
+                // The next Fibonacci number is the sum of the previous two.
+                long nextTerm = series[i - 1] + series[i - 2];
+                series.Add(nextTerm);
+            }
+        }
+
+        return series;
+    }
+
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("--- Fibonacci Series Generator ---");
+
+        int numberOfTerms = 0;
+        bool isValidInput = false;
+
+        // Loop until valid input (a positive integer) is received.
+        while (!isValidInput)
+        {
+            Console.Write("Enter the number of terms for the Fibonacci series: ");
+            string input = Console.ReadLine();
+
+            // Try to parse the input to an integer.
+            if (int.TryParse(input, out numberOfTerms))
+            {
+                // Check if the number of terms is positive.
+                if (numberOfTerms > 0)
+                {
+                    isValidInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a positive integer.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+            }
+        }
+
+        // Generate the Fibonacci series using the helper method.
+        List<long> fibonacciSeries = GenerateFibonacciSeries(numberOfTerms);
+
+        // Display the generated series.
+        Console.WriteLine($"\nFibonacci Series (first {numberOfTerms} terms):");
+        if (fibonacciSeries.Count > 0)
+        {
+            // Join the list elements with a comma and space for readable output.
+            Console.WriteLine(string.Join(", ", fibonacciSeries));
+        }
+        else
+        {
+            Console.WriteLine("No terms to display.");
+        }
+
+        Console.WriteLine("\nPress any key to exit.");
+        Console.ReadKey(); // Keep the console open until a key is pressed.
+    }
+}
